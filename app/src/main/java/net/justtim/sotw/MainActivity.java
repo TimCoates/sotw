@@ -22,8 +22,11 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -412,7 +415,25 @@ public class MainActivity extends AppCompatActivity {
         /** Creating a TextView to add to the row **/
         TextView lengthTV = new TextView(this);
         lengthTV.setTextSize(18);
-        lengthTV.setText("Distance: " + length + " metres");
+
+
+        double lengthMetres = Double.valueOf(length);
+        if(lengthMetres < 1500) {
+            length = length + " metres";
+        } else {
+            if(lengthMetres < 5000) {
+                length = round(lengthMetres, 3);
+            } else {
+                if(lengthMetres > 15000) {
+                    length = round(lengthMetres, 1);
+                } else {
+                    length = round(lengthMetres, 2);
+                }
+            }
+        }
+
+
+        lengthTV.setText("Distance: " + length);
         lengthTV.setTextColor(blackColor);
         lengthTV.setLayoutParams(lp);
         lengthTV.setPadding(5, 5, 5, 5);
@@ -440,16 +461,30 @@ public class MainActivity extends AppCompatActivity {
         double lastTime = 0;
         try {
             for (int i = 0; i < data.getJSONArray("Items").length(); i++) {
+
+                String elapsed = "";
+
                 JSONObject attempt = data.getJSONArray("Items").getJSONObject(i);
+                double minutes = Math.floor(attempt.getDouble("elapsed_time") / 60);
+                double seconds = attempt.getDouble("elapsed_time") - minutes * 60;
+                if(seconds < 10) {
+                    elapsed = (int) minutes + ":0" + (int) seconds;
+                } else {
+                    elapsed = (int) minutes + ":" + (int) seconds;
+                }
                 if (attempt.getLong("segment") == segID) {
                     if (athletes.contains(attempt.getLong("athleteID"))) { // This person has already featured so 'grey them out'
-                        addData("-", attempt.getString("name"), attempt.getLong("athleteID"), String.valueOf(attempt.getDouble("elapsed_time")), attempt.getLong("activityID"), true);
+                        addData("-", attempt.getString("name"), attempt.getLong("athleteID"), elapsed, attempt.getLong("activityID"), true);
                     } else {
                         if (lastTime < attempt.getDouble("elapsed_time")) { // Is this a slower time, i.e. not a tied result
                             rankVal++;
                         }
                         athletes.add(attempt.getLong("athleteID"));
-                        addData(String.valueOf(rankVal), attempt.getString("name"), attempt.getLong("athleteID"), String.valueOf(attempt.getDouble("elapsed_time")), attempt.getLong("activityID"), false);
+
+
+
+
+                        addData(String.valueOf(rankVal), attempt.getString("name"), attempt.getLong("athleteID"), elapsed, attempt.getLong("activityID"), false);
                         lastTime = attempt.getDouble("elapsed_time");
                     }
                 }
@@ -478,6 +513,26 @@ public class MainActivity extends AppCompatActivity {
 
         // Add the TableRow to the TableLayout
         myTableLayout.addView(tr, new TableLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+    }
+
+    private String round(double metres, int places) {
+        DecimalFormat df2;
+        String fString = ".#######";
+
+        if(places == 3) {
+            fString = ".###";
+        } else {
+            if(places == 2) {
+                fString = ".##";
+            } else {
+                if(places == 1) {
+                    fString = ".#";
+                }
+            }
+        }
+        df2 = new DecimalFormat(fString);
+        String result = df2.format(metres/1000) + " km";
+        return result;
     }
 
     /**

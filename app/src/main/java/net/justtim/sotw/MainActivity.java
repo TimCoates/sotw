@@ -1,11 +1,13 @@
 package net.justtim.sotw;
 
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -41,11 +43,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Switch from logo theme to proper theme...
-        setTheme(R.style.AppTheme);
 
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
-
         this.setTitle("ARCC Segment of the week");
     }
 
@@ -90,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
      */
     public void gotData(JSONObject data) {
         seg = 0;
+
+
 
         if (myTableLayout == null) {
             myTableLayout = (TableLayout) findViewById(R.id.maintable);
@@ -167,16 +170,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showNoSegmentsMsg() {
-        int blackColor = Color.RED;
+        int blackColor = getResources().getColor(R.color.colorRed);
 
         TableRow tr = new TableRow(this);
-        LayoutParams lp = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+        LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         lp.span = 3;
 
-        tr.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        tr.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
         TableRow tr1 = new TableRow(this);
-        tr1.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        tr1.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         /** Creating a TextView to add to the row **/
         TextView gradTV = new TextView(this);
         gradTV.setTextSize(24);
@@ -186,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
         tr1.addView(gradTV);
 
         // Add the TableRow to the TableLayout
-        myTableLayout.addView(tr1, new TableLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        myTableLayout.addView(tr1, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
         addDivider(1);
         return;
@@ -196,16 +199,16 @@ public class MainActivity extends AppCompatActivity {
      * A general message in case we got no attempts.
      */
     private void showNoAttemptsMsg() {
-        int blackColor = Color.RED;
+        int blackColor = getResources().getColor(R.color.colorRed);
 
         TableRow tr = new TableRow(this);
-        LayoutParams lp = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+        LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         lp.span = 3;
 
-        tr.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        tr.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
         TableRow tr1 = new TableRow(this);
-        tr1.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        tr1.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         /** Creating a TextView to add to the row **/
         TextView gradTV = new TextView(this);
         gradTV.setTextSize(24);
@@ -215,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
         tr1.addView(gradTV);
 
         // Add the TableRow to the TableLayout
-        myTableLayout.addView(tr1, new TableLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        myTableLayout.addView(tr1, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
         addDivider(1);
         return;
@@ -240,14 +243,17 @@ public class MainActivity extends AppCompatActivity {
      * @param greyed
      */
     public void addData(String rank, String name, long athleteID, String time, long activityID, boolean greyed) {
-        int linkColor = Color.parseColor("#0000ff");
-        int blackColor = Color.parseColor("#000000");
-        int greyColor = Color.parseColor("#505050");
-        int greyLinkColor = Color.parseColor("#6060e0");
+
+        int blackColor = getResources().getColor(R.color.colorBlack);
+        int linkColor = getResources().getColor(R.color.colorLink);
+
+        int greyColor = getResources().getColor(R.color.colorGrey);
+        int greyLinkColor = getResources().getColor(R.color.colorGreyLink);
 
         /** Create a TableRow dynamically **/
         TableRow tr = new TableRow(this);
-        tr.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        LayoutParams lpRow = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        tr.setLayoutParams(lpRow);
 
         /** Creating a TextView to add to the row **/
         TextView rankTV = new TextView(this);
@@ -258,7 +264,10 @@ public class MainActivity extends AppCompatActivity {
         } else {
             rankTV.setTextColor(blackColor);
         }
-        rankTV.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+
+        LayoutParams lpRank = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        lpRank.weight = 1;
+        rankTV.setLayoutParams(lpRank);
         rankTV.setPadding(5, 5, 5, 25);
         tr.addView(rankTV);
 
@@ -282,7 +291,9 @@ public class MainActivity extends AppCompatActivity {
             nameTV.setText(Html.fromHtml("<a href='https://www.strava.com/athletes/" + athleteID + "'>" + name + "</a>"));
         }
 
-        nameTV.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        LayoutParams lpName = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        lpName.weight = 2;
+        nameTV.setLayoutParams(lpName);
         nameTV.setPadding(5, 5, 5, 25);
         tr.addView(nameTV); // Adding textView to tablerow.
 
@@ -299,12 +310,15 @@ public class MainActivity extends AppCompatActivity {
             timeTV.setLinkTextColor(linkColor);
             timeTV.setTextColor(linkColor);
         }
-        timeTV.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+
+        LayoutParams lpTime = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        lpTime.weight = 2;
+        timeTV.setLayoutParams(lpTime);
         timeTV.setPadding(5, 5, 5, 25);
         tr.addView(timeTV); // Adding textView to tablerow.
 
         // Add the TableRow to the TableLayout
-        myTableLayout.addView(tr, new TableLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        myTableLayout.addView(tr, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
     }
 
     /**
@@ -314,24 +328,28 @@ public class MainActivity extends AppCompatActivity {
 
         /** Create a TableRow dynamically **/
         TableRow tr = new TableRow(this);
-        tr.setLayoutParams(new LayoutParams(
-                LayoutParams.FILL_PARENT,
-                LayoutParams.WRAP_CONTENT));
+
+        LayoutParams lpRow = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        tr.setLayoutParams(lpRow);
 
         /** Creating a TextView to add to the row **/
         TextView rankTV = new TextView(this);
         rankTV.setText("Rank");
         //rankTV.setTextColor(Color.GRAY);
         rankTV.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-        rankTV.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        LayoutParams lpRank = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        lpRank.weight = 1;
+        rankTV.setLayoutParams(lpRank);
         rankTV.setPadding(5, 5, 5, 0);
         tr.addView(rankTV);  // Adding textView to tablerow.
 
         /** Creating another textview **/
         TextView nameTV = new TextView(this);
         nameTV.setText("Name");
-        //nameTV.setTextColor(Color.GRAY);
-        nameTV.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+
+        LayoutParams lpName = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        lpName.weight = 2;
+        nameTV.setLayoutParams(lpName);
         nameTV.setPadding(5, 5, 5, 0);
         nameTV.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         tr.addView(nameTV); // Adding textView to tablerow.
@@ -339,16 +357,16 @@ public class MainActivity extends AppCompatActivity {
         /** Creating another textview **/
         TextView timeTV = new TextView(this);
         timeTV.setText("Time");
-        //nameTV.setTextColor(Color.GRAY);
-        timeTV.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        LayoutParams lpTime = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        lpTime.weight = 2;
+        timeTV.setLayoutParams(lpTime);
         timeTV.setPadding(5, 5, 5, 0);
         timeTV.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         tr.addView(timeTV); // Adding textView to tablerow.
 
         // Add the TableRow to the TableLayout
-        myTableLayout.addView(tr, new TableLayout.LayoutParams(
-                LayoutParams.FILL_PARENT,
-                LayoutParams.WRAP_CONTENT));
+        TableLayout.LayoutParams lpToAdd = new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        myTableLayout.addView(tr, lpToAdd);
 
         addDivider(1);
     }
@@ -363,8 +381,8 @@ public class MainActivity extends AppCompatActivity {
      */
     public void addSegment(long id, String name, String gradient, String length) {
 
-        int blackColor = Color.parseColor("#000000");
-        int linkColor = Color.parseColor("#0000ff");
+        int blackColor = getResources().getColor(R.color.colorBlack);
+        int linkColor = getResources().getColor(R.color.colorLink);
 
         if (seg != 0) {
             addDivider(2);
@@ -373,12 +391,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         TableRow tr = new TableRow(this);
-        LayoutParams lp = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+        LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         lp.span = 3;
 
         /** Create a TableRow dynamically **/
         //tr = new TableRow(this);
-        tr.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        LayoutParams lpRow = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        tr.setLayoutParams(lpRow);
 
         /** Creating a TextView to add to the row **/
         TextView titleTV = new TextView(this);
@@ -394,10 +413,10 @@ public class MainActivity extends AppCompatActivity {
         tr.addView(titleTV);
 
         // Add the TableRow to the TableLayout
-        myTableLayout.addView(tr, new TableLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        myTableLayout.addView(tr, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
         TableRow tr1 = new TableRow(this);
-        tr1.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        tr1.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         /** Creating a TextView to add to the row **/
         TextView gradTV = new TextView(this);
         gradTV.setTextSize(18);
@@ -408,10 +427,10 @@ public class MainActivity extends AppCompatActivity {
         tr1.addView(gradTV);
 
         // Add the TableRow to the TableLayout
-        myTableLayout.addView(tr1, new TableLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        myTableLayout.addView(tr1, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
         TableRow tr2 = new TableRow(this);
-        tr2.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        tr2.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         /** Creating a TextView to add to the row **/
         TextView lengthTV = new TextView(this);
         lengthTV.setTextSize(18);
@@ -440,7 +459,7 @@ public class MainActivity extends AppCompatActivity {
         tr2.addView(lengthTV);
 
         // Add the TableRow to the TableLayout
-        myTableLayout.addView(tr2, new TableLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        myTableLayout.addView(tr2, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
         addDivider(1);
         return;
@@ -500,11 +519,11 @@ public class MainActivity extends AppCompatActivity {
      * @param weight
      */
     private void addDivider(int weight) {
-        int blackColor = Color.parseColor("#000000");
+        int blackColor = getResources().getColor(R.color.colorBlack);
         TableRow tr = new TableRow(this);
-        LayoutParams lp = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+        LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         lp.span = 3;
-        tr.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        tr.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         ImageView iv = new ImageView(this);
         iv.setBackgroundColor(blackColor);
         iv.setPadding(0, 0, 0, weight);
@@ -512,7 +531,7 @@ public class MainActivity extends AppCompatActivity {
         tr.addView(iv);
 
         // Add the TableRow to the TableLayout
-        myTableLayout.addView(tr, new TableLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        myTableLayout.addView(tr, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
     }
 
     private String round(double metres, int places) {

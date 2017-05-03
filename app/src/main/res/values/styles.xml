@@ -9,6 +9,6 @@
     </style>
 
     <style name="AppTheme.Launcher" parent="AppTheme">
-        <item name="android:windowBackground">@mipmap/ic_logo</item>
+        <item name="android:windowBackground">@drawable/xml_bitmap</item>
     </style>
 </resources>

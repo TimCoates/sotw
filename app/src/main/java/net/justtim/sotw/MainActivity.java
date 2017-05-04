@@ -91,9 +91,7 @@ public class MainActivity extends AppCompatActivity {
      * @param data
      */
     public void gotData(JSONObject data) {
-        seg = 0;
-
-
+        seg = 0; // So we don't add a dividing line before the first segment
 
         if (myTableLayout == null) {
             myTableLayout = (TableLayout) findViewById(R.id.maintable);
@@ -108,28 +106,28 @@ public class MainActivity extends AppCompatActivity {
             if (data == null) {
                 showNoDataMsg();
             } else {
-                if (data.getJSONObject("segment1").getString("Name").equals("-")) {
+                if (data.getJSONObject(getString(R.string.seg1)).getString(getString(R.string.name)).equals("-")) {
                     showNoSegmentMsg();
                 } else {
-                    JSONObject s1 = data.getJSONObject("segment1");
-                    String seg1Name = s1.getString("Name");
+                    JSONObject s1 = data.getJSONObject(getString(R.string.seg1));
+                    String seg1Name = s1.getString(getString(R.string.name));
                     if (seg1Name.equals("-") == false) {
-                        seg1ID = s1.getLong("ID");
-                        String seg1Gradient = s1.getString("Gradient");
-                        String seg1Distance = s1.getString("Distance");
+                        seg1ID = s1.getLong(getString(R.string.id));
+                        String seg1Gradient = s1.getString(getString(R.string.grad));
+                        String seg1Distance = s1.getString(getString(R.string.dist));
                         addSegment(seg1ID, seg1Name, seg1Gradient, seg1Distance);
-                        if (data.getJSONArray("Items").length() == 0) {
+                        if (data.getJSONArray(getString(R.string.items)).length() == 0) {
                             showNoAttemptsMsg();
                         } else {
                             addHeaders();
                             scanArray(data, seg1ID);
 
-                            JSONObject s2 = data.getJSONObject("segment2");
-                            String seg2Name = s2.getString("Name");
+                            JSONObject s2 = data.getJSONObject(getString(R.string.seg2));
+                            String seg2Name = s2.getString(getString(R.string.name));
                             if (seg2Name.equals("-") == false) {
-                                long seg2ID = s2.getLong("ID");
-                                String seg2Gradient = s2.getString("Gradient");
-                                String seg2Distance = s2.getString("Distance");
+                                long seg2ID = s2.getLong(getString(R.string.id));
+                                String seg2Gradient = s2.getString(getString(R.string.grad));
+                                String seg2Distance = s2.getString(getString(R.string.dist));
 
                                 addSegment(seg2ID, seg2Name, seg2Gradient, seg2Distance);
                                 addHeaders();
@@ -137,12 +135,12 @@ public class MainActivity extends AppCompatActivity {
                                 scanArray(data, seg2ID);
 
                                 JSONObject s3 = data.getJSONObject("segment3");
-                                String seg3Name = s3.getString("Name");
+                                String seg3Name = s3.getString(getString(R.string.name));
 
                                 if (seg3Name.equals("-") == false) {
-                                    long seg3ID = s3.getLong("ID");
-                                    String seg3Gradient = s3.getString("Gradient");
-                                    String seg3Distance = s3.getString("Distance");
+                                    long seg3ID = s3.getLong(getString(R.string.id));
+                                    String seg3Gradient = s3.getString(getString(R.string.grad));
+                                    String seg3Distance = s3.getString(getString(R.string.dist));
 
                                     addSegment(seg3ID, seg3Name, seg3Gradient, seg3Distance);
                                     addHeaders();
@@ -166,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
      * When returned JSON object is null
      */
     private void showNoDataMsg() {
-        Toast.makeText(getApplicationContext(), "No data returned, please try later", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), R.string.noDataMsg, Toast.LENGTH_LONG).show();
         return;
     }
 
@@ -184,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
         /** Creating a TextView to add to the row **/
         TextView gradTV = new TextView(this);
         gradTV.setTextSize(24);
-        gradTV.setText("No segment set (yet).");
+        gradTV.setText(R.string.noSegmentMsg);
         gradTV.setTextColor(blackColor);
         gradTV.setLayoutParams(lp);
         tr1.addView(gradTV);
@@ -213,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
         /** Creating a TextView to add to the row **/
         TextView gradTV = new TextView(this);
         gradTV.setTextSize(24);
-        gradTV.setText("No attempts found (yet).");
+        gradTV.setText(R.string.noAttemptMsg);
         gradTV.setTextColor(blackColor);
         gradTV.setLayoutParams(lp);
         tr1.addView(gradTV);
@@ -346,7 +344,7 @@ public class MainActivity extends AppCompatActivity {
 
         /** Creating another textview **/
         TextView nameTV = new TextView(this);
-        nameTV.setText("Name");
+        nameTV.setText(getString(R.string.name));
 
         LayoutParams lpName = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         lpName.weight = 2;
@@ -405,7 +403,7 @@ public class MainActivity extends AppCompatActivity {
         titleTV.setLinksClickable(true);
         titleTV.setTextSize(18);
         titleTV.setMovementMethod(LinkMovementMethod.getInstance());
-        titleTV.setText(Html.fromHtml("<a href='https://www.strava.com/segments/" + String.valueOf(id) + "'>" + name + "</a>"));
+        titleTV.setText(Html.fromHtml(getString(R.string.segmentURL) + String.valueOf(id) + "'>" + name + "</a>"));
         titleTV.setTextColor(linkColor);
         titleTV.setLinkTextColor(linkColor);
         titleTV.setTypeface(null, Typeface.BOLD);
@@ -421,7 +419,7 @@ public class MainActivity extends AppCompatActivity {
         /** Creating a TextView to add to the row **/
         TextView gradTV = new TextView(this);
         gradTV.setTextSize(18);
-        gradTV.setText("Average gradient: " + gradient + " %");
+        gradTV.setText(getString(R.string.gradientLabel) + gradient + getString(R.string.percent));
         gradTV.setTextColor(blackColor);
         gradTV.setLayoutParams(lp);
         gradTV.setPadding(5, 5, 5, 5);
@@ -439,7 +437,7 @@ public class MainActivity extends AppCompatActivity {
 
         double lengthMetres = Double.valueOf(length);
         if(lengthMetres < 1500) {
-            length = length + " metres";
+            length = length + getString(R.string.mtrs);
         } else {
             if(lengthMetres < 5000) {
                 length = round(lengthMetres, 3);
@@ -453,7 +451,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        lengthTV.setText("Distance: " + length);
+        lengthTV.setText(getString(R.string.distanceLabel) + length);
         lengthTV.setTextColor(blackColor);
         lengthTV.setLayoutParams(lp);
         lengthTV.setPadding(5, 5, 5, 5);
@@ -480,32 +478,32 @@ public class MainActivity extends AppCompatActivity {
         int rankVal = 0;
         double lastTime = 0;
         try {
-            for (int i = 0; i < data.getJSONArray("Items").length(); i++) {
+            for (int i = 0; i < data.getJSONArray(getString(R.string.items)).length(); i++) {
 
                 String elapsed = "";
 
-                JSONObject attempt = data.getJSONArray("Items").getJSONObject(i);
-                double minutes = Math.floor(attempt.getDouble("elapsed_time") / 60);
-                double seconds = attempt.getDouble("elapsed_time") - minutes * 60;
+                JSONObject attempt = data.getJSONArray(getString(R.string.items)).getJSONObject(i);
+                double minutes = Math.floor(attempt.getDouble(getString(R.string.elTime)) / 60);
+                double seconds = attempt.getDouble(getString(R.string.elTime)) - minutes * 60;
                 if(seconds < 10) {
                     elapsed = (int) minutes + ":0" + (int) seconds;
                 } else {
                     elapsed = (int) minutes + ":" + (int) seconds;
                 }
                 if (attempt.getLong("segment") == segID) {
-                    if (athletes.contains(attempt.getLong("athleteID"))) { // This person has already featured so 'grey them out'
-                        addData("-", attempt.getString("name"), attempt.getLong("athleteID"), elapsed, attempt.getLong("activityID"), true);
+                    if (athletes.contains(attempt.getLong(getString(R.string.athID)))) { // This person has already featured so 'grey them out'
+                        addData("-", attempt.getString("name"), attempt.getLong(getString(R.string.athID)), elapsed, attempt.getLong("activityID"), true);
                     } else {
-                        if (lastTime < attempt.getDouble("elapsed_time")) { // Is this a slower time, i.e. not a tied result
+                        if (lastTime < attempt.getDouble(getString(R.string.elTime))) { // Is this a slower time, i.e. not a tied result
                             rankVal++;
                         }
-                        athletes.add(attempt.getLong("athleteID"));
+                        athletes.add(attempt.getLong(getString(R.string.athID)));
 
 
 
 
-                        addData(String.valueOf(rankVal), attempt.getString("name"), attempt.getLong("athleteID"), elapsed, attempt.getLong("activityID"), false);
-                        lastTime = attempt.getDouble("elapsed_time");
+                        addData(String.valueOf(rankVal), attempt.getString("name"), attempt.getLong(getString(R.string.athID)), elapsed, attempt.getLong("activityID"), false);
+                        lastTime = attempt.getDouble(getString(R.string.elTime));
                     }
                 }
             }
@@ -564,7 +562,7 @@ public class MainActivity extends AppCompatActivity {
             JSONObject theObject = null;
 
             try {
-                URL url = new URL("https://8hc4h5psj6.execute-api.eu-west-1.amazonaws.com/prod");
+                URL url = new URL(getString(R.string.apiURL));
 
                 // Here we use the URL we've created:
                 HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
@@ -584,11 +582,11 @@ public class MainActivity extends AppCompatActivity {
                 theObject = new JSONObject(resultString);
 
             } catch (MalformedURLException e) {
-                Toast.makeText(getApplicationContext(), "MalformedURLException", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.malformedURLErrorMsg, Toast.LENGTH_SHORT).show();
             } catch (IOException ex) {
-                Toast.makeText(getApplicationContext(), "IOException", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.ioErrorMsg, Toast.LENGTH_SHORT).show();
             } catch (Exception ex) {
-                Toast.makeText(getApplicationContext(), "Exception", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.generalErrorMsg, Toast.LENGTH_SHORT).show();
             }
             return theObject;
         }

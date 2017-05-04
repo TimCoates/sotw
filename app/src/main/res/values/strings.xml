@@ -1,4 +1,25 @@
 <resources>
     <string name="app_name">Segment of the week</string>
     <string name="short_name">SOTW</string>
+    <string name="segmentURL"><![CDATA[<a href=\'https://www.strava.com/segments/]]></string>
+    <string name="gradientLabel">Average gradient:</string>
+    <string name="percent">%</string>
+    <string name="mtrs">metres</string>
+    <string name="distanceLabel">Distance:</string>
+    <string name="apiURL">https://8hc4h5psj6.execute-api.eu-west-1.amazonaws.com/prod</string>
+    <string name="malformedURLErrorMsg">Error: MalformedURLException</string>
+    <string name="ioErrorMsg">Error: IOException</string>
+    <string name="generalErrorMsg">Error: Exception</string>
+    <string name="noDataMsg">No data returned, please try later</string>
+    <string name="noSegmentMsg">No segment set (yet).</string>
+    <string name="noAttemptMsg">No attempts found (yet).</string>
+    <string name="seg1">segment1</string>
+    <string name="seg2">segment2</string>
+    <string name="name">Name</string>
+    <string name="grad">Gradient</string>
+    <string name="dist">Distance</string>
+    <string name="id">ID</string>
+    <string name="items">Items</string>
+    <string name="athID">athleteID</string>
+    <string name="elTime">elapsed_time</string>
 </resources>

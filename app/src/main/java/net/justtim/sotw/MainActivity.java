@@ -1,22 +1,17 @@
 package net.justtim.sotw;
 
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.util.TypedValue;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.TableRow.LayoutParams;
-import android.graphics.Typeface;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -25,10 +20,9 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
-        this.setTitle("ARCC Segment of the week");
+        this.setTitle(getString(R.string.AppTitle));
     }
 
     /**
@@ -80,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     private void doRefresh() {
         long now = new Date().getTime();
         if ((now - lastUpdated) > 30000) {
-            Toast.makeText(getApplicationContext(), "Refreshing data...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.refreshMsg, Toast.LENGTH_SHORT).show();
             new RetrieveFeedTask().execute();  // Fire off the fetch data thread
         }
     }
@@ -134,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 scanArray(data, seg2ID);
 
-                                JSONObject s3 = data.getJSONObject("segment3");
+                                JSONObject s3 = data.getJSONObject(getString(R.string.seg3));
                                 String seg3Name = s3.getString(getString(R.string.name));
 
                                 if (seg3Name.equals("-") == false) {
@@ -567,8 +561,6 @@ public class MainActivity extends AppCompatActivity {
                 // Here we use the URL we've created:
                 HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
 
-                //con.setRequestMethod("GET");
-
                 BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
                 String inputLine;
                 StringBuffer response = new StringBuffer();
@@ -583,6 +575,8 @@ public class MainActivity extends AppCompatActivity {
 
             } catch (MalformedURLException e) {
                 Toast.makeText(getApplicationContext(), R.string.malformedURLErrorMsg, Toast.LENGTH_SHORT).show();
+            } catch (UnknownHostException ex) {
+                Toast.makeText(getApplicationContext(), R.string.noAPI, Toast.LENGTH_SHORT).show();
             } catch (IOException ex) {
                 Toast.makeText(getApplicationContext(), R.string.ioErrorMsg, Toast.LENGTH_SHORT).show();
             } catch (Exception ex) {

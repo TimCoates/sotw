@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Segment of the week</string>
+    <string name="AppTitle">ARCC Segment of the week</string>
     <string name="short_name">SOTW</string>
     <string name="segmentURL"><![CDATA[<a href=\'https://www.strava.com/segments/]]></string>
     <string name="gradientLabel">Average gradient:</string>
@@ -22,4 +23,7 @@
     <string name="items">Items</string>
     <string name="athID">athleteID</string>
     <string name="elTime">elapsed_time</string>
+    <string name="noAPI">Unable to connect to the API, please try later.</string>
+    <string name="seg3">segment3</string>
+    <string name="refreshMsg">Refreshing data...</string>
 </resources>

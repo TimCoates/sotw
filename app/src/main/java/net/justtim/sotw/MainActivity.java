@@ -14,6 +14,8 @@ import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,7 +33,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
 
-    TableLayout myTableLayout = null;
+    TableLayout myTableLayout = null;private FirebaseAnalytics mFirebaseAnalytics;
     int seg;
     long lastUpdated;
 
@@ -40,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
         // Switch from logo theme to proper theme...
 
         super.onCreate(savedInstanceState);
+
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
         this.setTitle(getString(R.string.AppTitle));
@@ -74,6 +80,10 @@ public class MainActivity extends AppCompatActivity {
     private void doRefresh() {
         long now = new Date().getTime();
         if ((now - lastUpdated) > 30000) {
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "doRefresh");
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
             Toast.makeText(getApplicationContext(), R.string.refreshMsg, Toast.LENGTH_SHORT).show();
             new RetrieveFeedTask().execute();  // Fire off the fetch data thread
         }

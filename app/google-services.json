@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "34738651907",
+    "firebase_url": "https://sotw-ab1af.firebaseio.com",
+    "project_id": "sotw-ab1af",
+    "storage_bucket": "sotw-ab1af.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:34738651907:android:17472455a471ecee",
+        "android_client_info": {
+          "package_name": "net.justtim.sotw"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "34738651907-tbdi0g72dv57ttm831nd2ktiacpk20mk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.justtim.sotw",
+            "certificate_hash": "e1cfe5eac054ff7ef05334f3a3a2717ebb47b996"
+          }
+        },
+        {
+          "client_id": "34738651907-hc25telefge88eba3i4malf2i701fn84.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtMr2JQf7PP9nBp1o45-PS62h6c_EysTA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "34738651907-hc25telefge88eba3i4malf2i701fn84.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     TableLayout myTableLayout = null;private FirebaseAnalytics mFirebaseAnalytics;
     int seg;
     long lastUpdated;
+    private double AppVersion = 0.2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +116,16 @@ public class MainActivity extends AppCompatActivity {
                 showNoDataMsg();
             } else {
                 // TODO: Here we need to check appVersion: "0.2", element of the JSON
+                double JSONVersion =data.getDouble(getString(R.string.appVersionElement));
+                if(JSONVersion > this.AppVersion) {
+                    Toast.makeText(getApplicationContext(), R.string.updateAppToast, Toast.LENGTH_LONG).show();
+                }
+
+                // TODO: Check for test data
+                if (data.getJSONObject(getString(R.string.seg1)).getString(getString(R.string.name)).equals("First segment")) {
+                    Toast.makeText(getApplicationContext(), R.string.testDataToast, Toast.LENGTH_LONG).show();
+                }
+
                 if (data.getJSONObject(getString(R.string.seg1)).getString(getString(R.string.name)).equals("-")) {
                     showNoSegmentMsg();
                 } else {
@@ -428,7 +439,7 @@ public class MainActivity extends AppCompatActivity {
         /** Creating a TextView to add to the row **/
         TextView gradTV = new TextView(this);
         gradTV.setTextSize(18);
-        gradTV.setText(getString(R.string.gradientLabel) + gradient + getString(R.string.percent));
+        gradTV.setText(getString(R.string.gradientLabel) + "  " + gradient + " " + getString(R.string.percent));
         gradTV.setTextColor(blackColor);
         gradTV.setLayoutParams(lp);
         gradTV.setPadding(5, 5, 5, 5);
@@ -460,7 +471,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        lengthTV.setText(getString(R.string.distanceLabel) + length);
+        lengthTV.setText(getString(R.string.distanceLabel) + "  " + length);
         lengthTV.setTextColor(blackColor);
         lengthTV.setLayoutParams(lp);
         lengthTV.setPadding(5, 5, 5, 5);

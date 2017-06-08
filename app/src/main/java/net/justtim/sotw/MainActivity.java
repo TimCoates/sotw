@@ -23,8 +23,10 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.UnknownHostException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -112,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
             if (data == null) {
                 showNoDataMsg();
             } else {
+                // TODO: Here we need to check appVersion: "0.2", element of the JSON
                 if (data.getJSONObject(getString(R.string.seg1)).getString(getString(R.string.name)).equals("-")) {
                     showNoSegmentMsg();
                 } else {
@@ -571,7 +574,12 @@ public class MainActivity extends AppCompatActivity {
                 URL url = new URL(getString(R.string.apiURL));
 
                 // Here we use the URL we've created:
-                HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+                URLConnection con;
+                if(getString(R.string.apiURL).startsWith("https")) {
+                    con = (HttpsURLConnection) url.openConnection();
+                } else {
+                    con = (HttpURLConnection) url.openConnection();
+                }
 
                 BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
                 String inputLine;

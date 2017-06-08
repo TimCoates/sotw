@@ -8,7 +8,8 @@
     <string name="mtrs">metres</string>
     <string name="distanceLabel">Distance:</string>
     <!-- <string name="apiURL">https://8hc4h5psj6.execute-api.eu-west-1.amazonaws.com/prod</string> -->
-    <string name="apiURL">https://api.sotw.justtim.net/prod</string>
+    <!-- <string name="apiURL">https://api.sotw.justtim.net/prod</string> -->
+    <string name="apiURL">http://sotw.justtim.net/testjson/test.json</string>
     <string name="malformedURLErrorMsg">Error: MalformedURLException</string>
     <string name="ioErrorMsg">Error: IOException</string>
     <string name="generalErrorMsg">Error: Exception</string>
